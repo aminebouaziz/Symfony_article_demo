@@ -1,17 +1,35 @@
 {% extends 'base.html.twig' %}
 {% block body %}   
     <article>
+        <center>
         <h2> {{ article.title }}</h2>
         <div class="metadata">
             Ecrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }}
-
+            Dans la category {{ article.category.title }}
         </div>
         <div class="content">
-          <img src="{{ article.image }}" alt="">
+        <img src="{{ article.image }}" alt="">
             {{ article.content | raw }}
-          <hr>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius inventore, id natus quisquam impedit corrupti ut? Aut non fugit cupiditate iure veniam delectus, dolorum aliquam doloremque perspiciatis adipisci inventore assumenda cum consequatur quam, voluptates nostrum fugiat totam ea! Culpa id aliquam nihil rerum cum ea in iusto pariatur necessitatibus nemo?</p>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius inventore, id natus quisquam impedit corrupti ut? Aut non fugit cupiditate iure veniam delectus, dolorum aliquam doloremque perspiciatis adipisci inventore assumenda cum consequatur quam, voluptates nostrum fugiat totam ea! Culpa id aliquam nihil rerum cum ea in iusto pariatur necessitatibus nemo?</p>
         </div>
+        </center>
     </article>
+    <hr style="border-top: 1px solid">
+    <center> <h1> Commentaires </h1></center>
+    <hr style="border-top: 1px solid">
+    <section id="commentaires">
+        {% for comment in article.comments %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-3">
+                        <b style="color: red;">   {{ comment.author }}  </b>(<small> {{ comment.createdAt | date('d/m/y  à H:i') }}</small>)
+                    </div>
+                    <div class="col">
+                        {{ comment.content | raw  }}
+                    </div>
+                </div>
+                <hr>
+            </div>
+        {% endfor %}
+        <hr>
+    </section>
 {% endblock %}

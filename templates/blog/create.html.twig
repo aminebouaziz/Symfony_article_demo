@@ -13,7 +13,12 @@
             'placeholder':"titre article"
         }
     })
+
     }}
+
+    {{ form_row(formArticle.category )
+    }}
+
     {{ form_row(formArticle.content,{
         'attr':{
             'placeholder':"Contenue de l'article"
@@ -29,7 +34,7 @@
             Enregistrer   les modification 
          {% else %}
         Ajouter l'article
-         {% endif %}
+            {% endif %}
     </button>
     {{ form_end(formArticle) }}
 

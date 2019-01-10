@@ -10,6 +10,7 @@
             <h2>  {{ article.title }}</h2>
             <div class="metadata">
             Ecrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }}
+                Dans la category {{ article.category.title }}
             </div>
             <div class="content">
                 <img src="{{ article.image }}" alt="">
@@ -17,6 +18,7 @@
                 <a href="{{ path('blog_show',{'id':article.id}) }}" class="btn btn-primary"> lire la suite</a>
             </div>
         </article>
+
         {% endfor %}
 
     </section>
