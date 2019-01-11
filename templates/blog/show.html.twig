@@ -10,11 +10,16 @@
         <div class="content">
         <img src="{{ article.image }}" alt="">
             {{ article.content | raw }}
-        </div>
+            {%  if   app.user  %}
+
+            <button type=""   class="btn btn-success"> <a style="text-decoration: none; color: white" href="{{ path('blog_edit',{'id':article.id}) }}">Editer</a></button>
+            {% endif %}
+            </div>
+
         </center>
     </article>
     <hr style="border-top: 1px solid">
-    <center> <h1> Commentaires </h1></center>
+    <center> <h1> {{ article.comments | length}} Commentaires </h1></center>
     <hr style="border-top: 1px solid">
     <section id="commentaires">
         {% for comment in article.comments %}
@@ -26,10 +31,22 @@
                     <div class="col">
                         {{ comment.content | raw  }}
                     </div>
+
                 </div>
                 <hr>
             </div>
         {% endfor %}
         <hr>
+        {% if app.user %}
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.author,{'attr':{'placeholder':"votre nom "}}) }}
+        {{ form_row(commentForm.content,{'attr':{'placeholder':"votre commentaire "}}) }}
+        <button type="submit" class="btn btn-success">Commenter</button>
+        {{ form_end(commentForm ) }}
+        {% else %}
+            <h2> Vous devez vous connecter pour commenter </h2>
+            <a href="{{ path('login') }}" class="btn btn-primary"> Connecter vous </a>
+            <a href="{{ path('registration') }}" class="btn btn-primary"> inscription</a>
+        {% endif %}
     </section>
 {% endblock %}

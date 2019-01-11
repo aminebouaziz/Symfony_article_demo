@@ -3,11 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *   fields={"email"},
+ *    message="email deja utiliser"
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,6 +24,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -28,9 +35,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="6", minMessage="vote mot de passe dois faire min 6 caractéres" )
+     * @Assert\EqualTo(propertyPath="confirm_pasword",message="Mot de passe mal confirmer")
      */
-    private $psseword;
-
+    private $password;
+    /**
+     * @Assert\EqualTo(propertyPath="password",message="Mot de passe mal confirmer")
+     */
     public $confirm_pasword;
 
     public function getId(): ?int
@@ -62,15 +73,28 @@ class User
         return $this;
     }
 
-    public function getPsseword(): ?string
+    public function getPassword(): ?string
     {
-        return $this->psseword;
+        return $this->password;
     }
 
-    public function setPsseword(string $psseword): self
+    public function setPassword(string $password): self
     {
-        $this->psseword = $psseword;
+        $this->password = $password;
 
         return $this;
     }
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+   
 }
